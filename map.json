@@ -1,0 +1,90 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 800,
+  "height": 800,
+  "title": {
+    "text": "Number of Persons Injured in NYC Accidents 2020",
+    "fontSize": 30
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/new-york-city-boroughs.json",
+        "format": {
+          "type": "topojson",
+          "feature": "new-york-city-boroughs"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "lightgray",
+        "stroke": "white"
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv"
+      },
+      "projection": {
+        "type": "albersUsa"
+      },
+      "mark": {
+        "type": "circle",
+        "tooltip": true
+      },
+      "encoding": {
+        "longitude": {
+          "field": "LONGITUDE",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "LATITUDE",
+          "type": "quantitative"
+        },
+        "size": {
+          "aggregate": "sum",
+          "field": "NUMBER OF PERSONS INJURED",
+          "type": "quantitative",
+          "scale": {
+            "type": "linear",
+            "domain": [
+              1,
+              10
+            ],
+            "range": [
+              4,
+              50
+            ]
+          }
+        },
+        "color": {
+          "aggregate": "sum",
+          "field": "NUMBER OF PERSONS INJURED",
+          "type": "quantitative",
+          "scale": {
+            "type": "linear",
+            "domain": [
+              1,
+              10
+            ],
+            "range": [
+              "#fdbe85",
+              "#fd8d3c"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "LONGITUDE"
+          },
+          {
+            "field": "LATITUDE"
+          },
+          {
+            "field": "NUMBER OF PERSONS INJURED"
+          }
+        ]
+      }
+    }
+  ]
+}
