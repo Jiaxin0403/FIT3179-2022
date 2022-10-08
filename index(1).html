@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  </head>
+
+  <body>
+    <div id="v1"></div>
+    <div id="v2"></div>
+  </body>
+
+  <script type="text/javascript">
+    let scatter = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      description: "bar",
+      width: 600,
+      height: 400,
+      title: {
+        text: "Number of Persons Injured by BOROUGH  in NYC Accidents 2020",
+        fontSize: 30,
+      },
+      data: {
+        url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv",
+      },
+
+      params: [
+        {
+          name: "industry",
+          select: { type: "point", fields: ["BOROUGH"] },
+          bind: "legend",
+        },
+        {
+          name: "border",
+          select: { type: "point", fields: ["BOROUGH"] },
+          bind: {
+            input: "select",
+            options: [
+              "",
+              "BRONX",
+              "BROOKLYN",
+              "MANHATTAN",
+              "QUEENS",
+              "STATEN ISLAND",
+            ],
+          },
+        },
+      ],
+
+      mark: "point",
+      encoding: {
+        x: {
+          timeUnit: "yearmonth",
+          field: "CRASH DATE",
+          type: "nominal",
+          axis: {
+            domain: false,
+            format: "%m",
+            tickSize: 0,
+            labelAngle: 0,
+          },
+        },
+        y: {
+          field: "NUMBER OF PERSONS INJURED",
+          type: "quantitative",
+          aggregate: "sum",
+        },
+        size: { value: 150 },
+        color: {
+          field: "BOROUGH",
+          type: "nominal",
+        },
+        fill: {
+          field: "BOROUGH",
+          type: "nominal",
+        },
+        stroke: {
+          condition: {
+            param: "border",
+            field: "BOROUGH",
+            type: "nominal",
+          },
+          value: "white",
+        },
+        opacity: {
+          condition: { param: "industry", value: 1 },
+          value: 0.2,
+        },
+      },
+    };
+
+    let map = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      width: 600,
+      height: 400,
+      title: {
+        text: "Number of Persons Injured in NYC Accidents 2020",
+        fontSize: 30,
+      },
+
+      params: [
+        {
+          name: "opacityVar",
+          value: 90,
+          bind: { input: "range", min: 1, max: 100, step: 1 },
+        },
+      ],
+
+      layer: [
+        {
+          data: {
+            url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/new-york-city-boroughs.json",
+            format: {
+              type: "topojson",
+              feature: "new-york-city-boroughs",
+            },
+          },
+          mark: {
+            type: "geoshape",
+            fill: "lightgray",
+            stroke: "white",
+          },
+        },
+        {
+          data: {
+            url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv",
+          },
+
+          projection: {
+            type: "albersUsa",
+          },
+          mark: {
+            type: "circle",
+            tooltip: true,
+            opacity: { expr: "opacityVar/100" },
+          },
+          encoding: {
+            longitude: {
+              field: "LONGITUDE",
+              type: "quantitative",
+            },
+            latitude: {
+              field: "LATITUDE",
+              type: "quantitative",
+            },
+            size: {
+              aggregate: "sum",
+              field: "NUMBER OF PERSONS INJURED",
+              type: "quantitative",
+              scale: {
+                type: "linear",
+                domain: [1, 10],
+                range: [4, 50],
+              },
+            },
+
+            tooltip: [
+              {
+                field: "LONGITUDE",
+              },
+              {
+                field: "LATITUDE",
+              },
+              {
+                field: "NUMBER OF PERSONS INJURED",
+              },
+            ],
+          },
+        },
+      ],
+    };
+
+    vegaEmbed("#v1", map);
+    vegaEmbed("#v2", scatter);
+  </script>
+</html>
