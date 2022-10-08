@@ -1,0 +1,77 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "bar",
+  "width": 600,
+  "height": 400,
+  "title": {
+    "text": "Number of Persons Injured by BOROUGH  in NYC Accidents 2020",
+    "fontSize": 30
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv"
+  },
+
+  "params": [
+    {
+      "name": "industry",
+      "select": { "type": "point", "fields": ["BOROUGH"] },
+      "bind": "legend"
+    },
+    {
+      "name": "border",
+      "select": { "type": "point", "fields": ["BOROUGH"] },
+      "bind": {
+        "input": "select",
+        "options": [
+          "",
+          "BRONX",
+          "BROOKLYN",
+          "MANHATTAN",
+          "QUEENS",
+          "STATEN ISLAND"
+        ]
+      }
+    }
+  ],
+
+  "mark": "point",
+  "encoding": {
+    "x": {
+      "timeUnit": "yearmonth",
+      "field": "CRASH DATE",
+      "type": "nominal",
+      "axis": {
+        "domain": false,
+        "format": "%m",
+        "tickSize": 0,
+        "labelAngle": 0
+      }
+    },
+    "y": {
+      "field": "NUMBER OF PERSONS INJURED",
+      "type": "quantitative",
+      "aggregate": "sum"
+    },
+    "size": { "value": 150 },
+    "color": {
+      "field": "BOROUGH",
+      "type": "nominal"
+    },
+    "fill": {
+      "field": "BOROUGH",
+      "type": "nominal"
+    },
+    "stroke": {
+      "condition": {
+        "param": "border",
+        "field": "BOROUGH",
+        "type": "nominal"
+      },
+      "value": "white"
+    },
+    "opacity": {
+      "condition": { "param": "industry", "value": 1 },
+      "value": 0.2
+    }
+  }
+}
