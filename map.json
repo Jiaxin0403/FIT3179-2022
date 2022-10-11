@@ -1,11 +1,20 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 800,
-  "height": 800,
+  "width": 600,
+  "height": 400,
   "title": {
     "text": "Number of Persons Injured in NYC Accidents 2020",
-    "fontSize": 30
+    "fontSize": 20
   },
+
+  "params": [
+    {
+      "name": "opacityVar",
+      "value": 90,
+      "bind": { "input": "range", "min": 1, "max": 100, "step": 1 }
+    }
+  ],
+
   "layer": [
     {
       "data": {
@@ -25,12 +34,14 @@
       "data": {
         "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv"
       },
+
       "projection": {
         "type": "albersUsa"
       },
       "mark": {
         "type": "circle",
-        "tooltip": true
+        "tooltip": true,
+        "opacity": { "expr": "opacityVar/100" }
       },
       "encoding": {
         "longitude": {
@@ -47,32 +58,11 @@
           "type": "quantitative",
           "scale": {
             "type": "linear",
-            "domain": [
-              1,
-              10
-            ],
-            "range": [
-              4,
-              50
-            ]
+            "domain": [1, 10],
+            "range": [4, 50]
           }
         },
-        "color": {
-          "aggregate": "sum",
-          "field": "NUMBER OF PERSONS INJURED",
-          "type": "quantitative",
-          "scale": {
-            "type": "linear",
-            "domain": [
-              1,
-              10
-            ],
-            "range": [
-              "#fdbe85",
-              "#fd8d3c"
-            ]
-          }
-        },
+
         "tooltip": [
           {
             "field": "LONGITUDE"

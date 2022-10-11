@@ -1,0 +1,48 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": { "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+  "mark": { "type": "rect", "tooltip": true },
+  "width": 600,
+  "height": 400,
+
+  "title": {
+    "text": "Number of persons injured distribution by month and day in NYC Accidents 2020",
+    "fontSize": 20
+  },
+  "config": {
+    "view": {
+      "strokeWidth": 0,
+      "step": 13
+    },
+    "axis": {
+      "domain": false
+    }
+  },
+
+  "encoding": {
+    "x": {
+      "field": "CRASH DATE",
+      "timeUnit": "date",
+      "type": "ordinal",
+      "title": "Day",
+      "axis": {
+        "labelAngle": 0,
+        "format": "%e"
+      }
+    },
+    "y": {
+      "field": "CRASH DATE",
+      "timeUnit": "month",
+      "type": "ordinal",
+      "title": "Month"
+    },
+    "color": {
+      "field": "NUMBER OF PERSONS INJURED",
+      "aggregate": "sum",
+      "type": "quantitative",
+      "legend": {
+        "title": null
+      }
+    }
+  }
+}

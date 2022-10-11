@@ -4,8 +4,8 @@
   "width": 600,
   "height": 400,
   "title": {
-    "text": "Number of Persons Injured by BOROUGH  in NYC Accidents 2020",
-    "fontSize": 30
+    "text": "Number of Persons Injured by BOROUGH in NYC Accidents 2020",
+    "fontSize": 20
   },
   "data": {
     "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv"
@@ -23,7 +23,7 @@
       "bind": {
         "input": "select",
         "options": [
-          "",
+          null,
           "BRONX",
           "BROOKLYN",
           "MANHATTAN",

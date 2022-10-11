@@ -1,0 +1,26 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": { "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+  "mark": { "type": "area", "tooltip": true },
+  "width": 600,
+  "height": 400,
+
+  "title": {
+    "text": "Number of VEHICLE TYPE trend by month of year  in NYC Accidents 2020",
+    "fontSize": 20
+  },
+  "encoding": {
+    "x": {
+      "timeUnit": "yearweek",
+      "field": "CRASH DATE",
+      "axis": { "domain": false, "format": "%Y%W", "tickSize": 0 }
+    },
+    "y": {
+      "aggregate": "count",
+      "field": "CRASH DATE",
+      "axis": null,
+      "stack": "center"
+    },
+    "color": { "field": "VEHICLE TYPE CODE 1", "scale": { "scheme": "category20b" } }
+  }
+}

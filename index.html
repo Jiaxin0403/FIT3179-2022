@@ -8,11 +8,32 @@
     <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 30px;
+        justify-items: center;
+      }
+
+      div {
+        border: solid 1px lightray !important;
+        border-radius: 10px;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="v1"></div>
-    <div id="v2"></div>
+    <h1 style="text-align: center">NYC Accidents 2020</h1>
+    <hr />
+    <main>
+      <div id="v1"></div>
+      <div id="v2"></div>
+      <div id="v3"></div>
+      <div id="v4"></div>
+      <div id="v5"></div>
+      <div id="v6"></div>
+    </main>
   </body>
 
   <script type="text/javascript">
@@ -22,8 +43,8 @@
       width: 600,
       height: 400,
       title: {
-        text: "Number of Persons Injured by BOROUGH  in NYC Accidents 2020",
-        fontSize: 30,
+        text: "Number of Persons Injured by BOROUGH in NYC Accidents 2020",
+        fontSize: 20,
       },
       data: {
         url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv",
@@ -41,7 +62,7 @@
           bind: {
             input: "select",
             options: [
-              "",
+              null,
               "BRONX",
               "BROOKLYN",
               "MANHATTAN",
@@ -100,7 +121,7 @@
       height: 400,
       title: {
         text: "Number of Persons Injured in NYC Accidents 2020",
-        fontSize: 30,
+        fontSize: 20,
       },
 
       params: [
@@ -174,8 +195,148 @@
         },
       ],
     };
+    let bar = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      data: { url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+      mark: { type: "bar", tooltip: true },
+      width: 600,
+      height: 400,
+      title: {
+        text: "Number of cases trend by month of year in NYC Accidents 2020",
+        fontSize: 20,
+      },
+      encoding: {
+        x: {
+          timeUnit: "yearmonth",
+          field: "CRASH DATE",
+          type: "ordinal",
+          title: "Month of the year",
+        },
+
+        y: {
+          aggregate: "count",
+          type: "quantitative",
+        },
+        color: {
+          field: "BOROUGH",
+          type: "nominal",
+
+          title: "BOROUGH",
+        },
+      },
+    };
+    let circle = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      data: { url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+      mark: { type: "point", tooltip: true },
+      width: 600,
+      height: 400,
+      transform: [{ field: "datum.BOROUGH<>''" }],
+      title: {
+        text: "Comparision of number of persons injured and killed in NYC Accidents 2020",
+        fontSize: 20,
+      },
+      encoding: {
+        x: {
+          aggregate: "sum",
+          field: "NUMBER OF PERSONS INJURED",
+          type: "quantitative",
+        },
+        y: {
+          aggregate: "sum",
+          field: "NUMBER OF PERSONS KILLED",
+          type: "quantitative",
+        },
+        fill: {
+          field: "BOROUGH",
+        },
+        size: { value: 120 },
+      },
+    };
+    let area = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      data: { url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+      mark: { type: "area", tooltip: true },
+      width: 600,
+      height: 400,
+
+      title: {
+        text: "Number of VEHICLE TYPE  trend by month of year in NYC Accidents 2020",
+        fontSize: 20,
+      },
+      encoding: {
+        x: {
+          timeUnit: "yearweek",
+          field: "CRASH DATE",
+          axis: { domain: false, format: "%Y%W", tickSize: 0 },
+        },
+        y: {
+          aggregate: "count",
+          field: "CRASH DATE",
+          axis: null,
+          stack: "center",
+        },
+        color: {
+          field: "VEHICLE TYPE CODE 1",
+          scale: { scheme: "category20b" },
+        },
+      },
+    };
+
+    let daymonth = {
+      $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+      data: { url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+      mark: { type: "rect", tooltip: true },
+      width: 600,
+      height: 400,
+
+      title: {
+        text: "Number of persons injured distribution by month and day in NYC Accidents 2020",
+        fontSize: 20,
+      },
+      config: {
+        view: {
+          strokeWidth: 0,
+          step: 13,
+        },
+        axis: {
+          domain: false,
+        },
+      },
+
+      encoding: {
+        x: {
+          field: "CRASH DATE",
+          timeUnit: "date",
+          type: "ordinal",
+          title: "Day",
+          axis: {
+            labelAngle: 0,
+            format: "%e",
+          },
+        },
+        y: {
+          field: "CRASH DATE",
+          timeUnit: "month",
+          type: "ordinal",
+          title: "Month",
+        },
+        color: {
+          field: "NUMBER OF PERSONS INJURED",
+          aggregate: "sum",
+          type: "quantitative",
+          legend: {
+            title: null,
+          },
+        },
+      },
+    };
 
     vegaEmbed("#v1", map);
     vegaEmbed("#v2", scatter);
+    vegaEmbed("#v3", bar);
+    vegaEmbed("#v4", circle);
+    vegaEmbed("#v5", area);
+    vegaEmbed("#v6", daymonth);
   </script>
 </html>

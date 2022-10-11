@@ -1,0 +1,28 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": { "url": "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+  "mark": { "type": "point", "tooltip": true },
+  "width": 600,
+  "height": 400,
+  "transform": [{ "field": "datum.BOROUGH<>''" }],
+  "title": {
+    "text": "Comparision of number of persons injured and killed in NYC Accidents 2020",
+    "fontSize": 20
+  },
+  "encoding": {
+    "x": {
+      "aggregate": "sum",
+      "field": "NUMBER OF PERSONS INJURED",
+      "type": "quantitative"
+    },
+    "y": {
+      "aggregate": "sum",
+      "field": "NUMBER OF PERSONS KILLED",
+      "type": "quantitative"
+    },
+    "fill": {
+      "field": "BOROUGH"
+    },
+    "size": { "value": 120 }
+  }
+}
