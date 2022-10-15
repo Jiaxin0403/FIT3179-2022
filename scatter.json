@@ -23,7 +23,7 @@
       "bind": {
         "input": "select",
         "options": [
-          null,
+          "Show All",
           "BRONX",
           "BROOKLYN",
           "MANHATTAN",

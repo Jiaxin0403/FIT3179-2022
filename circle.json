@@ -4,7 +4,6 @@
   "mark": { "type": "point", "tooltip": true },
   "width": 600,
   "height": 400,
-  "transform": [{ "field": "datum.BOROUGH<>''" }],
   "title": {
     "text": "Comparision of number of persons injured and killed in NYC Accidents 2020",
     "fontSize": 20
