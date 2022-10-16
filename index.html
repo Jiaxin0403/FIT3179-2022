@@ -14,11 +14,20 @@
         grid-template-columns: 1fr 1fr;
         grid-gap: 30px;
         justify-items: center;
+        padding: 40px;
       }
 
       div {
         border: solid 1px lightray !important;
         border-radius: 10px;
+      }
+
+      h1 {
+        background-image: url("./images.png");
+        background-repeat:no-repeat;
+        background-size: cover;
+        background-position: 50%;
+        height: 50px;
       }
     </style>
   </head>
@@ -27,12 +36,84 @@
     <h1 style="text-align: center">NYC Accidents 2020</h1>
     <hr />
     <main>
-      <div id="v1"></div>
-      <div id="v2"></div>
-      <div id="v3"></div>
-      <div id="v4"></div>
-      <div id="v5"></div>
-      <div id="v6"></div>
+      <div>
+        <div id="v1"></div>
+        <p>
+          This data visualization uses a map to show the distribution of people
+          injured in traffic accidents in New York City in 2020. The size of the
+          dots is used to represent the number of injuries in each accident, and
+          the map is visually superimposed to show where the number of injuries
+          is concentrated in New York City. The initial value of transparency is
+          set at 90, which allows users to observe the results of data
+          presentation at first glance, and different degrees of transparency
+          can help reflect the observation results more accurately.
+        </p>
+      </div>
+
+      <div>
+        <div id="v2"></div>
+        <p>
+          This data visualization uses a scatter plot to show and compare the
+          number of injuries in each borough of New York City due to traffic
+          accidents in 2020. Data in unmarked areas on the dataset are shown as
+          blue dots. It can be seen that the number of injuries in Brooklyn and
+          Queens is relatively high, and the government should focus on
+          prevention first in these two areas to greatly reduce the casualty
+          rate of accidents.
+        </p>
+      </div>
+      <div>
+        <div id="v3"></div>
+        <p>
+          This data visualization uses a stacked bar chart to show the trends
+          over time in the number of injuries in each borough of New York City
+          due to traffic accidents in 2020, and compares them. Data in unmarked
+          areas on the dataset are shown as blue dots. It can be seen that the
+          change trend of casualties in the Bronx area and the Staten island
+          area is relatively flat, and the change trends in other areas
+          fluctuate to a certain extent, sometimes increasing and sometimes
+          decreasing.
+        </p>
+      </div>
+
+      <div>
+        <div id="v4"></div>
+        <p>
+          This data visualization uses a scatter plot to show the relationship
+          between the number of injured and the number of deaths in each
+          district. This data visualization shows not a trend comparison of
+          proportions between casualties, but independent proportions by
+          district. The degree of mortality can be intuitively judged by
+          imagining the slope of the line between the point and the origin. A
+          flat line has a lower degree of mortality, and a steeper line has a
+          higher degree of mortality.
+        </p>
+      </div>
+
+      <div>
+        <div>
+          <div id="v5"></div>
+          <p>
+            This data visualization uses an area chart to show the types of
+            vehicles involved in traffic accidents and their trends over time.
+            This information partly indicates which types of vehicles have
+            higher accident rates. People can use this as a reference when
+            deciding on the type of vehicle to buy. Vehicle manufacturers can
+            observe trends in accident rates to make vehicle safety
+            improvements.
+          </p>
+        </div>
+      </div>
+      <div>
+        <div id="v6"></div>
+        <p>
+          This data visualization uses a heat map to show the number of traffic
+          casualties accurate to each day, each month. It can be seen that the
+          number of casualties was higher in January, February, July, and
+          August. The number of casualties decreased from mid-March until the
+          end of May, and began to rebound again in June.
+        </p>
+      </div>
     </main>
   </body>
 
@@ -254,7 +335,27 @@
     };
     let area = {
       $schema: "https://vega.github.io/schema/vega-lite/v5.json",
-      data: { url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv" },
+      data: {
+        url: "https://raw.githubusercontent.com/Jiaxin0403/FIT3179-2022/main/NYC%20Accidents%202020.csv",
+      },
+
+      transform: [
+        {
+          filter: {
+            field: "VEHICLE TYPE CODE 1",
+            oneOf: [
+              "Sedan",
+              "Station Wagon/Sport Utility Vehicle",
+              "Taxi",
+              "Pick-up Truck",
+              "Box Truck",
+              "Bus",
+              "Bike",
+              "AMBULANCE",
+            ],
+          },
+        },
+      ],
       mark: { type: "area", tooltip: true },
       width: 600,
       height: 400,
